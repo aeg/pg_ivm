@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
 
 RUN cd /usr/src/pg_ivm && \
-    git checkout v1.8 && \
+    git checkout refs/tags/v1.9 && \
     make USE_PGXS=1 && \
     make USE_PGXS=1 install
 
