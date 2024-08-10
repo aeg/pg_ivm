@@ -1,5 +1,5 @@
 # build stage
-FROM postgres:16.3 AS builder
+FROM postgres:16.4 AS builder
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -15,7 +15,7 @@ RUN cd /usr/src/pg_ivm && \
     make USE_PGXS=1 install
 
 # runtime stage
-FROM postgres:16.3
+FROM postgres:16.4
 
 RUN apt-get update && \ 
     apt-get clean && \
