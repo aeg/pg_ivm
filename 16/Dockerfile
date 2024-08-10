@@ -1,7 +1,10 @@
 # build stage
-FROM postgres:16.3 AS builder
+FROM postgres:16.4 AS builder
 
-RUN apt-get update && apt-get install -y \
+RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     git \
@@ -10,14 +13,16 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
 
 RUN cd /usr/src/pg_ivm && \
-    git checkout v1.8 && \
+    git checkout v1.9 && \
     make USE_PGXS=1 && \
     make USE_PGXS=1 install
 
 # runtime stage
-FROM postgres:16.3
+FROM postgres:16.4
 
-RUN apt-get update && \ 
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && \ 
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
