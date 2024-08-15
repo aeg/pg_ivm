@@ -7,7 +7,7 @@ This image based on [postgres](https://hub.docker.com/_/postgres/) and could use
 ## Quick start
 
 ```
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres16.4-pg_ivm1.9
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres17beta3-pg_ivm1.9
 ```
 
 ## How to use
@@ -20,7 +20,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres16.4-pg_ivm1.9
+    image: aeffix/pg_ivm:postgres17beta3-pg_ivm1.9
     ports:
       -   5432:5432
     environment:
