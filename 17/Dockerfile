@@ -1,5 +1,5 @@
 # build stage
-FROM postgres:17beta3 AS builder
+FROM postgres:17.9 AS builder
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -10,19 +10,18 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     git \
     postgresql-server-dev-17
 
-RUN git clone https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
+RUN git clone --branch v1.14 --depth 1 https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
 
 RUN cd /usr/src/pg_ivm && \
-    git checkout v1.9 && \
     make USE_PGXS=1 && \
     make USE_PGXS=1 install
 
 # runtime stage
-FROM postgres:17beta3
+FROM postgres:17.9
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
-    apt-get update && \ 
+    apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
