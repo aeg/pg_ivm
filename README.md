@@ -4,11 +4,52 @@ Dockerfile for extension pg_ivm.
 
 This image based on [postgres](https://hub.docker.com/_/postgres/) and could use as same as postgres images.
 
+[日本語版 README](./README.ja.md)
+
 ## Quick start
 
 ```
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres16.13-pg_ivm1.13
 ```
+
+## Try pg_ivm quickly
+
+You can test `pg_ivm` with a simple JSON-based example after the container starts.
+
+```bash
+docker exec -it postgres psql -U postgres -d postgres
+```
+
+```sql
+CREATE TABLE raw_orders (payload jsonb NOT NULL);
+
+INSERT INTO raw_orders (payload) VALUES
+  ('{"id": 1001, "customer": "alice", "amount": 1200, "status": "new"}'),
+  ('{"id": 1002, "customer": "bob", "amount": 800, "status": "paid"}');
+
+SELECT pgivm.create_immv(
+  'ivm_orders',
+  $$SELECT
+      (payload->>'id')::int AS order_id,
+      payload->>'customer' AS customer,
+      (payload->>'amount')::int AS amount,
+      payload->>'status' AS status
+    FROM raw_orders$$
+);
+
+TABLE ivm_orders;
+
+INSERT INTO raw_orders (payload)
+VALUES ('{"id": 1003, "customer": "carol", "amount": 650, "status": "shipped"}');
+
+SELECT count(*) AS row_count, sum(amount) AS total_amount FROM ivm_orders;
+```
+
+Expected result:
+
+- `TABLE ivm_orders;` returns rows extracted from JSON
+- after the last `INSERT`, `row_count` becomes `3`
+- `total_amount` becomes `2650`
 
 ## How to use
 
