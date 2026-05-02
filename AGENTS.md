@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-This repository packages `pg_ivm` into PostgreSQL Docker images. Version-specific files live under `16/` and `17/`. Each directory currently contains `init-db.sh`, which runs during container initialization and creates the `pg_ivm` extension. The root [`README.md`](/home/eiji/git/pg_ivm/README.md) documents image usage and example container startup commands.
+This repository packages `pg_ivm` into PostgreSQL Docker images. Version-specific files live under `16/`, `17/`, and `18/`. Each directory currently contains `init-db.sh`, which runs during container initialization and creates the `pg_ivm` extension. The root [`README.md`](/home/eiji/git/pg_ivm/README.md) documents image usage and example container startup commands.
 
 ## Build, Test, and Development Commands
 Use Docker to build and validate changes.
@@ -33,3 +33,6 @@ Recent commit messages are short and release-oriented, for example: `support pos
 
 ## Version Update Notes
 When adding support for a new PostgreSQL release, create a matching top-level directory such as `18/`, copy the init script pattern, and keep behavior aligned across supported versions unless a version-specific difference is required.
+
+## Agent Workflow
+When updating PostgreSQL or `pg_ivm` versions in this repository, use the `pg-ivm-version-upgrade` skill from `~/.codex/skills/pg-ivm-version-upgrade`. It covers version checks, directory updates, `README.md` and `README.ja.md` updates, `docker build` validation, the JSON-based `pgivm.create_immv(...)` smoke test, and Docker Hub tag or push command preparation.
