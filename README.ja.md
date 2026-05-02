@@ -9,8 +9,20 @@
 ## クイックスタート
 
 ```bash
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres16.13-pg_ivm1.13
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.3-pg_ivm1.14
 ```
+
+## 利用できる image tag
+
+- `aeffix/pg_ivm:postgres16.13-pg_ivm1.13`
+- `aeffix/pg_ivm:postgres17.9-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres18.3-pg_ivm1.14`
+
+必要であれば、次のようなメジャーバージョン用 tag も公開できます。
+
+- `aeffix/pg_ivm:postgres16`
+- `aeffix/pg_ivm:postgres17`
+- `aeffix/pg_ivm:postgres18`
 
 ## pg_ivm を簡単に試す
 
@@ -61,7 +73,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres16.13-pg_ivm1.13
+    image: aeffix/pg_ivm:postgres18.3-pg_ivm1.14
     ports:
       - 5432:5432
     environment:
