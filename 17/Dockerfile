@@ -1,5 +1,5 @@
 # build stage
-FROM postgres:17.9 AS builder
+FROM postgres:17.10 AS builder
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
@@ -17,7 +17,7 @@ RUN cd /usr/src/pg_ivm && \
     make USE_PGXS=1 install
 
 # runtime stage
-FROM postgres:17.9
+FROM postgres:17.10
 
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \

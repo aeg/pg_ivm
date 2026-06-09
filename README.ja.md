@@ -9,14 +9,14 @@
 ## クイックスタート
 
 ```bash
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.3-pg_ivm1.14
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.4-pg_ivm1.14
 ```
 
 ## 利用できる image tag
 
-- `aeffix/pg_ivm:postgres16.13-pg_ivm1.13`
-- `aeffix/pg_ivm:postgres17.9-pg_ivm1.14`
-- `aeffix/pg_ivm:postgres18.3-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres16.14-pg_ivm1.13`
+- `aeffix/pg_ivm:postgres17.10-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres18.4-pg_ivm1.14`
 
 必要であれば、次のようなメジャーバージョン用 tag も公開できます。
 
@@ -33,6 +33,10 @@ docker exec -it postgres psql -U postgres -d postgres
 ```
 
 ```sql
+CREATE EXTENSION IF NOT EXISTS pg_ivm;
+DROP TABLE IF EXISTS ivm_orders;
+DROP TABLE IF EXISTS raw_orders;
+
 CREATE TABLE raw_orders (payload jsonb NOT NULL);
 
 INSERT INTO raw_orders (payload) VALUES
@@ -59,7 +63,7 @@ SELECT count(*) AS row_count, sum(amount) AS total_amount FROM ivm_orders;
 
 確認できること:
 
-- `TABLE ivm_orders;` で JSON から展開された行を参照できます
+- `TABLE ivm_orders;` で JSON から展開された 2 行を参照できます
 - 最後の `INSERT` 実行後、`row_count` は `3` になります
 - `total_amount` は `2650` になります
 
@@ -73,7 +77,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres18.3-pg_ivm1.14
+    image: aeffix/pg_ivm:postgres18.4-pg_ivm1.14
     ports:
       - 5432:5432
     environment:
