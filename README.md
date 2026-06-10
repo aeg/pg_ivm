@@ -9,14 +9,14 @@ This image based on [postgres](https://hub.docker.com/_/postgres/) and could use
 ## Quick start
 
 ```
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.3-pg_ivm1.14
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.4-pg_ivm1.14
 ```
 
 ## Available image tags
 
-- `aeffix/pg_ivm:postgres16.13-pg_ivm1.13`
-- `aeffix/pg_ivm:postgres17.9-pg_ivm1.14`
-- `aeffix/pg_ivm:postgres18.3-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres16.14-pg_ivm1.13`
+- `aeffix/pg_ivm:postgres17.10-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres18.4-pg_ivm1.14`
 
 Major-version tags can also be published for convenience:
 
@@ -33,6 +33,10 @@ docker exec -it postgres psql -U postgres -d postgres
 ```
 
 ```sql
+CREATE EXTENSION IF NOT EXISTS pg_ivm;
+DROP TABLE IF EXISTS ivm_orders;
+DROP TABLE IF EXISTS raw_orders;
+
 CREATE TABLE raw_orders (payload jsonb NOT NULL);
 
 INSERT INTO raw_orders (payload) VALUES
@@ -59,7 +63,7 @@ SELECT count(*) AS row_count, sum(amount) AS total_amount FROM ivm_orders;
 
 Expected result:
 
-- `TABLE ivm_orders;` returns rows extracted from JSON
+- `TABLE ivm_orders;` returns 2 rows extracted from JSON
 - after the last `INSERT`, `row_count` becomes `3`
 - `total_amount` becomes `2650`
 
@@ -73,7 +77,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres18.3-pg_ivm1.14
+    image: aeffix/pg_ivm:postgres18.4-pg_ivm1.14
     ports:
       -   5432:5432
     environment:
