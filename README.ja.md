@@ -9,14 +9,14 @@
 ## クイックスタート
 
 ```bash
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.4-pg_ivm1.14
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.4-pg_ivm1.15
 ```
 
 ## 利用できる image tag
 
 - `aeffix/pg_ivm:postgres16.14-pg_ivm1.13`
 - `aeffix/pg_ivm:postgres17.10-pg_ivm1.14`
-- `aeffix/pg_ivm:postgres18.4-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres18.4-pg_ivm1.15`
 
 必要であれば、次のようなメジャーバージョン用 tag も公開できます。
 
@@ -77,7 +77,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres18.4-pg_ivm1.14
+    image: aeffix/pg_ivm:postgres18.4-pg_ivm1.15
     ports:
       - 5432:5432
     environment:
