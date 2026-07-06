@@ -10,7 +10,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     git \
     postgresql-server-dev-16 
 
-RUN git clone --branch v1.13 --depth 1 https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
+RUN git clone --branch v1.15 --depth 1 https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
 
 RUN cd /usr/src/pg_ivm && \
     make USE_PGXS=1 && \
