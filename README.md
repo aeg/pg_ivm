@@ -15,7 +15,7 @@ docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/
 ## Available image tags
 
 - `aeffix/pg_ivm:postgres16.14-pg_ivm1.13`
-- `aeffix/pg_ivm:postgres17.10-pg_ivm1.14`
+- `aeffix/pg_ivm:postgres17.10-pg_ivm1.15`
 - `aeffix/pg_ivm:postgres18.4-pg_ivm1.15`
 
 Major-version tags can also be published for convenience:
