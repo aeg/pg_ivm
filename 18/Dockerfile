@@ -33,5 +33,6 @@ COPY --from=builder /usr/lib/postgresql/18/lib/pg_ivm.so /usr/lib/postgresql/18/
 COPY --from=builder /usr/share/postgresql/18/extension/pg_ivm* /usr/share/postgresql/18/extension/
 COPY --from=builder /usr/lib/postgresql/18/lib/bitcode/pg_ivm/* /usr/lib/postgresql/18/lib/bitcode/pg_ivm/
 COPY --from=builder /usr/lib/postgresql/18/lib/bitcode/pg_ivm.index.bc /usr/lib/postgresql/18/lib/bitcode/pg_ivm.index.bc
+COPY --from=builder /usr/lib/postgresql/18/bin/pg_ivm_dump_metadata /usr/lib/postgresql/18/bin/pg_ivm_dump_metadata
 
 COPY init-db.sh /docker-entrypoint-initdb.d/
