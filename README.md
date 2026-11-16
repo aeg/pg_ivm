@@ -9,20 +9,22 @@ This image based on [postgres](https://hub.docker.com/_/postgres/) and could use
 ## Quick start
 
 ```
-docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.4-pg_ivm1.15
+docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/pg_ivm:postgres18.7-pg_ivm1.17
 ```
 
 ## Available image tags
 
-- `aeffix/pg_ivm:postgres16.14-pg_ivm1.15`
-- `aeffix/pg_ivm:postgres17.10-pg_ivm1.15`
-- `aeffix/pg_ivm:postgres18.4-pg_ivm1.15`
+- `aeffix/pg_ivm:postgres16.16-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres17.12-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres18.7-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres19rc2-pg_ivm1.17`
 
 Major-version tags can also be published for convenience:
 
 - `aeffix/pg_ivm:postgres16`
 - `aeffix/pg_ivm:postgres17`
 - `aeffix/pg_ivm:postgres18`
+- `aeffix/pg_ivm:postgres19`
 
 ## Try pg_ivm quickly
 
@@ -77,7 +79,7 @@ version: "3.8"
 services:
   db:
     container_name: pg_ivm
-    image: aeffix/pg_ivm:postgres18.4-pg_ivm1.15
+    image: aeffix/pg_ivm:postgres18.7-pg_ivm1.17
     ports:
       -   5432:5432
     environment:
