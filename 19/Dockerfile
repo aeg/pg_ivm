@@ -1,3 +1,13 @@
+# gosu build stage
+FROM golang:1.26-alpine AS gosu-builder
+
+RUN apk add --no-cache git && \
+    git clone --depth 1 https://github.com/tianon/gosu.git /usr/src/gosu && \
+    cd /usr/src/gosu && \
+    go get golang.org/x/sys@latest && \
+    go mod tidy && \
+    CGO_ENABLED=0 go build -ldflags '-d -s -w' -o /usr/local/bin/gosu .
+
 # build stage
 FROM postgres:19.0 AS builder
 
@@ -22,6 +32,7 @@ FROM postgres:19.0
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -29,6 +40,7 @@ RUN mkdir -p '/usr/lib/postgresql/19/lib' && \
     mkdir -p '/usr/share/postgresql/19/extension' && \
     mkdir -p '/usr/lib/postgresql/19/lib/bitcode/pg_ivm'
 
+COPY --from=gosu-builder /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=builder /usr/lib/postgresql/19/lib/pg_ivm.so /usr/lib/postgresql/19/lib/pg_ivm.so
 COPY --from=builder /usr/share/postgresql/19/extension/pg_ivm* /usr/share/postgresql/19/extension/
 COPY --from=builder /usr/lib/postgresql/19/lib/bitcode/pg_ivm/* /usr/lib/postgresql/19/lib/bitcode/pg_ivm/
