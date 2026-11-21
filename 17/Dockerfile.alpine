@@ -1,7 +1,7 @@
 # build stage
 FROM postgres:17.12-alpine AS builder
 
-RUN apk add --no-cache build-base git clang21 llvm21
+RUN apk add --no-cache build-base git clang21 llvm21 go
 
 RUN git clone --branch v1.17 --depth 1 https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
 
@@ -9,10 +9,18 @@ RUN cd /usr/src/pg_ivm && \
     make USE_PGXS=1 && \
     make USE_PGXS=1 install
 
+RUN git clone --depth 1 https://github.com/tianon/gosu.git /usr/src/gosu && \
+    cd /usr/src/gosu && \
+    go get golang.org/x/sys@latest && \
+    go mod tidy && \
+    CGO_ENABLED=0 go build -ldflags '-d -s -w' -o /usr/local/bin/gosu .
+
 # runtime stage
 FROM postgres:17.12-alpine
 
 RUN apk upgrade --no-cache
+
+COPY --from=builder /usr/local/bin/gosu /usr/local/bin/gosu
 
 COPY --from=builder /usr/local/lib/postgresql/pg_ivm.so /usr/local/lib/postgresql/pg_ivm.so
 COPY --from=builder /usr/local/share/postgresql/extension/pg_ivm* /usr/local/share/postgresql/extension/
