@@ -14,17 +14,26 @@ docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/
 
 ## Available image tags
 
+Debian-based tags:
+
 - `aeffix/pg_ivm:postgres16.16-pg_ivm1.17`
 - `aeffix/pg_ivm:postgres17.12-pg_ivm1.17`
 - `aeffix/pg_ivm:postgres18.7-pg_ivm1.17`
 - `aeffix/pg_ivm:postgres19.0-pg_ivm1.17`
 
+Alpine-based tags:
+
+- `aeffix/pg_ivm:postgres16.16-alpine-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres17.12-alpine-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres18.7-alpine-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres19.0-alpine-pg_ivm1.17`
+
 Major-version tags can also be published for convenience:
 
-- `aeffix/pg_ivm:postgres16`
-- `aeffix/pg_ivm:postgres17`
-- `aeffix/pg_ivm:postgres18`
-- `aeffix/pg_ivm:postgres19`
+- `aeffix/pg_ivm:postgres16`, `aeffix/pg_ivm:postgres16-alpine`
+- `aeffix/pg_ivm:postgres17`, `aeffix/pg_ivm:postgres17-alpine`
+- `aeffix/pg_ivm:postgres18`, `aeffix/pg_ivm:postgres18-alpine`
+- `aeffix/pg_ivm:postgres19`, `aeffix/pg_ivm:postgres19-alpine`
 
 ## Try pg_ivm quickly
 
