@@ -1,0 +1,23 @@
+# build stage
+FROM postgres:18.7-alpine AS builder
+
+RUN apk add --no-cache build-base git clang21 llvm21
+
+RUN git clone --branch v1.17 --depth 1 https://github.com/sraoss/pg_ivm.git /usr/src/pg_ivm
+
+RUN cd /usr/src/pg_ivm && \
+    make USE_PGXS=1 && \
+    make USE_PGXS=1 install
+
+# runtime stage
+FROM postgres:18.7-alpine
+
+RUN apk upgrade --no-cache
+
+COPY --from=builder /usr/local/lib/postgresql/pg_ivm.so /usr/local/lib/postgresql/pg_ivm.so
+COPY --from=builder /usr/local/share/postgresql/extension/pg_ivm* /usr/local/share/postgresql/extension/
+COPY --from=builder /usr/local/lib/postgresql/bitcode/pg_ivm/* /usr/local/lib/postgresql/bitcode/pg_ivm/
+COPY --from=builder /usr/local/lib/postgresql/bitcode/pg_ivm.index.bc /usr/local/lib/postgresql/bitcode/pg_ivm.index.bc
+COPY --from=builder /usr/local/bin/pg_ivm_dump_metadata /usr/local/bin/pg_ivm_dump_metadata
+
+COPY init-db.sh /docker-entrypoint-initdb.d/
