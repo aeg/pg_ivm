@@ -17,7 +17,7 @@ docker run --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 aeffix/
 - `aeffix/pg_ivm:postgres16.16-pg_ivm1.17`
 - `aeffix/pg_ivm:postgres17.12-pg_ivm1.17`
 - `aeffix/pg_ivm:postgres18.7-pg_ivm1.17`
-- `aeffix/pg_ivm:postgres19rc2-pg_ivm1.17`
+- `aeffix/pg_ivm:postgres19.0-pg_ivm1.17`
 
 必要であれば、次のようなメジャーバージョン用 tag も公開できます。
 
